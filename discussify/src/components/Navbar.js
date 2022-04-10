@@ -11,13 +11,37 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
+import { useHistory } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+
 
 const pages = ['Home', 'Search', 'About']
 const settings = ['Account', 'Options', 'Logout']
 
 const Navbar = () => {
+  const history = useHistory()
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      history.push('/login')
+    } catch (error) {
+      console.log('ERROR: ', error)
+    }
+  }
+  const mapPagesToRoute = {
+    'Home': '/',
+    'Search': '/search',
+    'About': '/about',
+  }
+  const mapSettingToRoute = {
+    'Account': '/account',
+    'Options': '/options',
+  }
+  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -77,7 +101,7 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => history.push(mapPagesToRoute[page])}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -95,7 +119,7 @@ const Navbar = () => {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => history.push(mapPagesToRoute[page])}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -126,7 +150,8 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                // setting === 'Logout' ? handleLogout : ()  => history.push(mapSettingToRoute[setting])}
+                <MenuItem key={setting} onClick={handleLogout}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

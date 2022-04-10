@@ -3,7 +3,7 @@ import { Grid, Container, Button, Typography, Card } from '@mui/material'
 import { makeStyles } from '@material-ui/core'
 import { TextField } from '@material-ui/core'
 import { useAuth } from '../contexts/AuthContext'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 export const SignUp = () => {
   const classes = useStyles()
   const { signUp, currentUser } = useAuth()
+  const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -31,13 +32,14 @@ export const SignUp = () => {
       setLoading(true)
       setError('')
       await signUp(email, password)
+      history.push('/')
     } catch (error) {
       setError('Failed to create account due to: ', error)
       console.log('ERROR: ', error)
     }
     setLoading(false)
   }
-  console.log(email, password, confirmPassword)
+
     return (
         <Grid
         container
