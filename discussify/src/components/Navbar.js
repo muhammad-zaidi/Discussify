@@ -150,8 +150,8 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                // setting === 'Logout' ? handleLogout : ()  => history.push(mapSettingToRoute[setting])}
-                <MenuItem key={setting} onClick={handleLogout}>
+                
+                <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : ()  => history.push(mapSettingToRoute[setting])}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

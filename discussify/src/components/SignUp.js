@@ -18,12 +18,17 @@ export const SignUp = () => {
   const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSignUp = async (e) => {
     e.preventDefault()
+    if (!firstName || !lastName) {
+      return setError('Missing fields')
+    }
     if (password !== confirmPassword) {
       return setError('Passwords do not match')
     }
@@ -34,7 +39,7 @@ export const SignUp = () => {
       await signUp(email, password)
       history.push('/')
     } catch (error) {
-      setError('Failed to create account due to: ', error)
+      setError('Missing email or password')
       console.log('ERROR: ', error)
     }
     setLoading(false)
@@ -54,7 +59,9 @@ export const SignUp = () => {
            <Card variant='outlined' className={classes.card}>
               <h1 style={{ textAlign: "center", marginBottom: "100px" }}>Sign Up to Discussify!</h1>
               {error}
-              {currentUser.email}
+              {/* {currentUser.email} */}
+              <TextField style={{ marginBottom: "30px" }} fullWidth placeholder="First Name" value={firstName} onChange={(e) => {setFirstName(e.target.value)}} />
+              <TextField style={{ marginBottom: "30px" }} fullWidth placeholder="Last Name" value={lastName} onChange={(e) => {setLastName(e.target.value)}} />
               <TextField style={{ marginBottom: "30px" }} fullWidth placeholder="Email" value={email} onChange={(e) => {setEmail(e.target.value)}} />
               <TextField style={{ marginBottom: "30px" }} fullWidth placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)}}/>
               <TextField style={{ marginBottom: "30px" }} fullWidth placeholder="Confirm Password" value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value)}}/>

@@ -7,6 +7,8 @@ import { Login } from './components/Login'
 import { Main } from './components/Main'
 import { Options } from './components/Options'
 import { Account } from './components/Account'
+import { Search } from './components/Search'
+import { About } from './components/About'
 import { PrivateRoute } from './components/PrivateRoute'
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
             <PrivateRoute exact path ='/' component={Main} />
             <PrivateRoute path = '/options' component={Options} />
             <PrivateRoute path ='/account' component={Account} />
+            <PrivateRoute path ='/about' component={About} />
+            <PrivateRoute path ='/search' component={Search} />
           </div>
         </Switch>
       </AuthProvider>
