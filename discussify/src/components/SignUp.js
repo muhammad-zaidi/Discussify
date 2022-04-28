@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core'
 import { TextField } from '@material-ui/core'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
+import axios from 'axios'
 
 
 const useStyles = makeStyles({
@@ -26,7 +27,7 @@ export const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault()
-    if (!firstName || !lastName) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
       return setError('Missing fields')
     }
     if (password !== confirmPassword) {
@@ -34,9 +35,16 @@ export const SignUp = () => {
     }
 
     try {
+      console.log(JSON.stringify(currentUser))
       setLoading(true)
       setError('')
       await signUp(email, password)
+      const { data } = await axios.post('/register-user', {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      })
       history.push('/')
     } catch (error) {
       setError('Missing email or password')
